@@ -1,1 +1,5 @@
-POST {{domain}}{{user-queue}}?user_id=17
+### 접속 대기 등록
+POST {{domain}}{{user-queue}}?user_id=12
+
+### 접속 허용 단계
+POST {{domain}}{{user-queue}}/allow?count=1

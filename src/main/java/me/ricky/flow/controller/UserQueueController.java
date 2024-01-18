@@ -1,6 +1,7 @@
 package me.ricky.flow.controller;
 
 import lombok.RequiredArgsConstructor;
+import me.ricky.flow.dto.RegisterUserResponse;
 import me.ricky.flow.service.UserQueueService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +14,11 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class UserQueueController {
     private final UserQueueService userQueueService;
+
     @PostMapping
-    public Mono<?> registerWaitQueue(@RequestParam(name = "user_id") Long userId) {
-        return userQueueService.registerWaitQueue(userId);
+    public Mono<RegisterUserResponse> registerWaitQueue(@RequestParam(name = "queue", defaultValue = "default") String queue,
+                                                        @RequestParam(name = "user_id") Long userId) {
+        return userQueueService.registerWaitQueue(queue, userId)
+                .map(RegisterUserResponse::new);
     }
 }

@@ -3,3 +3,6 @@ POST {{domain}}{{user-queue}}?user_id=12
 
 ### 접속 허용 단계
 POST {{domain}}{{user-queue}}/allow?count=1
+
+### 접속 가능 여부
+GET {{domain}}{{user-queue}}/allowed?user_id=12

@@ -2,12 +2,10 @@ package me.ricky.flow.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.ricky.flow.dto.AllowUserResponse;
+import me.ricky.flow.dto.AllowedUserResponse;
 import me.ricky.flow.dto.RegisterUserResponse;
 import me.ricky.flow.service.UserQueueService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -27,5 +25,12 @@ public class UserQueueController {
                                              @RequestParam(name = "count") Long count) {
         return userQueueService.allowUser(queue, count)
                 .map(allowed -> new AllowUserResponse(count, allowed));
+    }
+
+    @GetMapping("/allowed")
+    public Mono<AllowedUserResponse> isAllowed(@RequestParam(name = "queue", defaultValue = "default") String queue,
+                                               @RequestParam(name = "user_id") Long userId) {
+        return userQueueService.isAllowed(queue, userId)
+                .map(AllowedUserResponse::new);
     }
 }

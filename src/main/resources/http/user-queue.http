@@ -9,3 +9,6 @@ GET {{domain}}{{user-queue}}/allowed?user_id=12
 
 ### 접속 대기열 rank 조회
 GET {{domain}}{{user-queue}}/rank?user_id=100
+
+
+#http://localhost:9010/waiting-room?user_id=100&redirect_url=https://www.naver.com

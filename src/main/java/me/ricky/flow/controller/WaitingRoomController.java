@@ -1,5 +1,7 @@
 package me.ricky.flow.controller;
 
+import lombok.RequiredArgsConstructor;
+import me.ricky.flow.service.UserQueueService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -7,11 +9,27 @@ import org.springframework.web.reactive.result.view.Rendering;
 import reactor.core.publisher.Mono;
 
 @Controller
+@RequiredArgsConstructor
 public class WaitingRoomController {
+    private final UserQueueService userQueueService;
+
     @GetMapping("/waiting-room")
     Mono<Rendering> waitingRoom(@RequestParam(name = "queue", defaultValue = "default") String queue,
-                                @RequestParam(name = "user_id") Long userId) {
-        return Mono.just(Rendering.view("waiting-room.html")
-                .build());
+                                @RequestParam(name = "user_id") Long userId,
+                                @RequestParam(name = "redirect_url") String redirectUrl
+    ) {
+        return userQueueService.isAllowed(queue, userId)
+                .filter(isAllowed -> isAllowed)
+                .flatMap(isAllowed -> Mono.just(Rendering.redirectTo(redirectUrl).build()))
+                .switchIfEmpty(
+                        userQueueService.registerWaitQueue(queue, userId)
+                        .onErrorResume(ex -> userQueueService.getRank(queue, userId))
+                        .map(rank -> Rendering.view("waiting-room.html")
+                                .modelAttribute("number", rank)
+                                .modelAttribute("userId", userId)
+                                .modelAttribute("queue", queue)
+                                .build())
+                );
+
     }
 }

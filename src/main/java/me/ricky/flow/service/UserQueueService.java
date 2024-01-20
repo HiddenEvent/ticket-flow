@@ -1,13 +1,15 @@
 package me.ricky.flow.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.ricky.flow.exception.ErrorCode;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserQueueService {
@@ -54,4 +56,8 @@ public class UserQueueService {
                 .map(rank -> rank >= 0 ? rank + 1 : rank);
     }
 
+    @Scheduled(initialDelay = 5000, fixedDelay = 3000)
+    public void scheduleAllowUser() {
+        log.info("scheduleAllowUser");
+    }
 }

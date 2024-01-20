@@ -3,6 +3,7 @@ package me.ricky.flow.controller;
 import lombok.RequiredArgsConstructor;
 import me.ricky.flow.dto.AllowUserResponse;
 import me.ricky.flow.dto.AllowedUserResponse;
+import me.ricky.flow.dto.RankNumberResponse;
 import me.ricky.flow.dto.RegisterUserResponse;
 import me.ricky.flow.service.UserQueueService;
 import org.springframework.web.bind.annotation.*;
@@ -33,4 +34,12 @@ public class UserQueueController {
         return userQueueService.isAllowed(queue, userId)
                 .map(AllowedUserResponse::new);
     }
+
+    @GetMapping("/rank")
+    public Mono<RankNumberResponse> getRank(@RequestParam(name = "queue", defaultValue = "default") String queue,
+                                            @RequestParam(name = "user_id") Long userId) {
+        return userQueueService.getRank(queue, userId)
+                .map(RankNumberResponse::new);
+    }
+
 }

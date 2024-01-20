@@ -1,8 +1,11 @@
 ### 접속 대기 등록
-POST {{domain}}{{user-queue}}?user_id=12
+POST {{domain}}{{user-queue}}?user_id=100
 
 ### 접속 허용 단계
 POST {{domain}}{{user-queue}}/allow?count=1
 
 ### 접속 가능 여부
 GET {{domain}}{{user-queue}}/allowed?user_id=12
+
+### 접속 대기열 rank 조회
+GET {{domain}}{{user-queue}}/rank?user_id=100

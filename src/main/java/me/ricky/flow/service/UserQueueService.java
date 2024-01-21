@@ -57,6 +57,14 @@ public class UserQueueService {
                 .map(rank -> rank >= 0);
     }
 
+    public Mono<Boolean> isAllowedByToken(final String queue, final Long userId, final String token) {
+        return this.generateToken(queue, userId)
+                .filter(generatedToken -> generatedToken.equalsIgnoreCase(token))
+                .map(i -> true)
+                .defaultIfEmpty(false);
+    }
+
+
     public Mono<Long> getRank(final String queue, final Long userId) {
         return reactiveRedisTemplate.opsForZSet().rank(USER_QUEUE_WAIT_KEY.formatted(queue), userId.toString())
                 .defaultIfEmpty(-1L)

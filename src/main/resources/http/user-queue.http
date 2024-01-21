@@ -1,5 +1,5 @@
 ### 접속 대기 등록
-POST {{domain}}{{user-queue}}?user_id=1509
+POST {{domain}}{{user-queue}}?user_id=1510
 
 ### 접속 허용 단계
 POST {{domain}}{{user-queue}}/allow?count=1
@@ -11,4 +11,4 @@ GET {{domain}}{{user-queue}}/allowed?user_id=12
 GET {{domain}}{{user-queue}}/rank?user_id=100
 
 
-#http://localhost:9010/waiting-room?user_id=100&redirect_url=https://www.naver.com
+#http://localhost:9010/waiting-room?user_id=1510&redirect_url=https://www.naver.com
